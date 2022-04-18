@@ -26,7 +26,7 @@ def getSaleEventLatest() -> list[dict]:
         id
         idx
         nft {
-            id
+            tokenID
         }
         from {
             id
@@ -53,7 +53,7 @@ def getSaleEventLatest() -> list[dict]:
             else:
                 output.append({
                     "isSale": True,
-                    "tokenId": int(sale["nft"]["id"]),
+                    "tokenId": int(sale["nft"]["tokenID"]),
                     "from": str(sale["from"]["id"]),
                     "to": str(sale["to"]["id"]),
                     "amount": int(sale["amount"]),
@@ -71,7 +71,7 @@ def getSaleEventPerBlock(block: int) -> list[dict]:
         id
         idx
         nft {
-            id
+            tokenID
         }
         from {
             id
@@ -98,7 +98,7 @@ def getSaleEventPerBlock(block: int) -> list[dict]:
             else:
                 output.append({
                     "isSale": True,
-                    "tokenId": int(sale["nft"]["id"]),
+                    "tokenId": int(sale["nft"]["tokenID"]),
                     "from": str(sale["from"]["id"]),
                     "to": str(sale["to"]["id"]),
                     "amount": int(sale["amount"]),
@@ -110,7 +110,9 @@ def getSaleEventPerBlock(block: int) -> list[dict]:
 
 def getForestSpiritPerId(id: int) -> dict:
     query = """query {
-    forestSpirit(id: "%i") {
+    forestSpirits(where: {
+        tokenID: "%i"
+    }) {
         tokenID
         name
         image
@@ -135,16 +137,16 @@ def getForestSpiritPerId(id: int) -> dict:
     else:
         return {
             "isForestSpirit": True,
-            "tokenId": int(json_data["data"]["forestSpirit"]["tokenID"]),
-            "name": str(json_data["data"]["forestSpirit"]["name"]),
-            "image_url": str(json_data["data"]["forestSpirit"]["image"]),
-            "animation_url": str(json_data["data"]["forestSpirit"]["animation_url"]),
-            "body": str(json_data["data"]["forestSpirit"]["body"]),
-            "mask": str(json_data["data"]["forestSpirit"]["mask"]),
-            "staff": str(json_data["data"]["forestSpirit"]["staff"]),
-            "element": str(json_data["data"]["forestSpirit"]["element"]),
-            "pedestal": str(json_data["data"]["forestSpirit"]["pedestal"]),
-            "environment": str(json_data["data"]["forestSpirit"]["environment"]),
-            "ancestor": str(json_data["data"]["forestSpirit"]["ancestor"]),
-            "origin": str(json_data["data"]["forestSpirit"]["origin"])
+            "tokenId": int(json_data["data"]["forestSpirits"][0]["tokenID"]),
+            "name": str(json_data["data"]["forestSpirits"][0]["name"]),
+            "image_url": str(json_data["data"]["forestSpirits"][0]["image"]),
+            "animation_url": str(json_data["data"]["forestSpirits"][0]["animation_url"]),
+            "body": str(json_data["data"]["forestSpirits"][0]["body"]),
+            "mask": str(json_data["data"]["forestSpirits"][0]["mask"]),
+            "staff": str(json_data["data"]["forestSpirits"][0]["staff"]),
+            "element": str(json_data["data"]["forestSpirits"][0]["element"]),
+            "pedestal": str(json_data["data"]["forestSpirits"][0]["pedestal"]),
+            "environment": str(json_data["data"]["forestSpirits"][0]["environment"]),
+            "ancestor": str(json_data["data"]["forestSpirits"][0]["ancestor"]),
+            "origin": str(json_data["data"]["forestSpirits"][0]["origin"])
         }

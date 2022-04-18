@@ -22,7 +22,7 @@ block_current = 0
 while True:
     try:
         # get latest block
-        block_latest = 14597211 #getEthBlockLatest()
+        block_latest = getEthBlockLatest()
         if block_current >= block_latest:
             #sleep(1)
             continue
