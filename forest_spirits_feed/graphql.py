@@ -11,14 +11,15 @@ def sendQuery(query: str, url: str) -> json:
 
 def getEthBlockLatest() -> int:
     query = """query {
-    blocks(first: 1, skip: 5, orderBy: number, orderDirection: desc) {
-        number
-        timestamp
+        _meta {
+            block {
+            number
+            }
         }
     }
     """
-    json_data = sendQuery(query=query, url=config.eth_blocks_subgraph_url)
-    return int(json_data["data"]["blocks"][0]["number"])
+    json_data = sendQuery(query=query, url=config.nft_subgraph_url)
+    return int(json_data["data"]["_meta"]["block"]["number"])
 
 def getSaleEventLatest() -> list[dict]:
     query = """query {
@@ -90,6 +91,8 @@ def getSaleEventPerBlock(block: int) -> list[dict]:
     
     output = []
     if "error" in str(json_data):
+        return [{"isSale": False}]
+    elif "id" not in str(json_data):
         return [{"isSale": False}]
     else:
         for sale in json_data["data"]["saleEvents"]:
